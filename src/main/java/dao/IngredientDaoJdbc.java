@@ -14,36 +14,7 @@ import entites.Marque;
 
 public class IngredientDaoJdbc implements IngredientDao {
 
-//	@Override
-//	public List<Ingredient> extraire() {
-//		Connection connection = null;
-//		List<Ingredient> listeIngredient = new ArrayList<Ingredient>();
-//		try {
-//			connection = getConnection(); // jeton de permission et d'accès à la base
-//			
-//			// récupérer un buffer d'échange avec la BDD (un tuyau de communication)
-//			Statement monCanal = connection.createStatement();
-//			ResultSet monResultat = monCanal.executeQuery("select * from ingredient;");
-//			
-//			while(monResultat.next()) {
-//				listeIngredient.add(new Ingredient(monResultat.getInt("id_ing"), 
-//											monResultat.getString("nom")));
-//			}
-//			monResultat.close();
-//			monCanal.close();
-//			
-//		} catch(Exception e) {
-//			System.err.println("Erreur d'éxecution :" + e.getMessage());
-//		} finally {
-//			try {
-//				if(connection != null) connection.close();
-//			} catch(SQLException e) {
-//				System.err.println("Problème de connection :" + e.getMessage());
-//			}		
-//		}
-//		return listeIngredient;
-//	}
-
+	// insertion d'un objet Ingredient dans la table ingredient
 	@Override
 	public void insert(Ingredient ingredient) {
 		Connection connection = null;
@@ -57,7 +28,7 @@ public class IngredientDaoJdbc implements IngredientDao {
 			connection.close();
 			
 		} catch(Exception e) {
-			System.err.println("erreur d'éxecution : " + e.getMessage());
+			System.err.println("erreur d'éxecution insert ingredient : " + e.getMessage());
 		}finally {
 			try {
 				if(connection != null) connection.close();
@@ -69,6 +40,7 @@ public class IngredientDaoJdbc implements IngredientDao {
 	}
 	
 	
+	// méthode pour récupérer l'ID de l'ingrédient à partir de son nom
 	public int getIngredientIdByName(String nom) {
 		Connection connection = null;
 		int id_ing = -1;

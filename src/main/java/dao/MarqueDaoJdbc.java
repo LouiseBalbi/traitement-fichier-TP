@@ -14,36 +14,8 @@ import entites.Marque;
 
 public class MarqueDaoJdbc implements MarqueDao {
 
-//	@Override
-//	public List<Marque> extraire() {
-//		Connection connection = null;
-//		List<Marque> listeMarque = new ArrayList<Marque>();
-//		try {
-//			connection = getConnection(); // jeton de permission et d'accès à la base
-//			
-//			// récupérer un buffer d'échange avec la BDD (un tuyau de communication)
-//			Statement monCanal = connection.createStatement();
-//			ResultSet monResultat = monCanal.executeQuery("select * from marque;");
-//			
-//			while(monResultat.next()) {
-//				listeMarque.add(new Marque(monResultat.getInt("id_marque"), 
-//											monResultat.getString("nom")));
-//			}
-//			monResultat.close();
-//			monCanal.close();
-//			
-//		} catch(Exception e) {
-//			System.err.println("Erreur d'éxecution :" + e.getMessage());
-//		} finally {
-//			try {
-//				if(connection != null) connection.close();
-//			} catch(SQLException e) {
-//				System.err.println("Problème de connection :" + e.getMessage());
-//			}		
-//		}
-//		return listeMarque;
-//	}
 
+	// insertion d'un objet marque dans la table marque
 	@Override
 	public void insert(Marque marque) {
 		Connection connection = null;
@@ -68,6 +40,7 @@ public class MarqueDaoJdbc implements MarqueDao {
 	}
 	
 	
+	// méthode pour récupérer l'ID de la marque à partir de son nom
 	public int getMarqueIdByName(String nom) {
 		Connection connection = null;
 		int id_marque = -1;

@@ -14,36 +14,8 @@ import entites.Categorie;
 
 public class CategorieDaoJdbc implements CategorieDao {
 
-//	@Override
-//	public List<Categorie> extraire() {
-//		Connection connection = null;
-//		List<Categorie> listeCategorie = new ArrayList<Categorie>();
-//		try {
-//			connection = getConnection(); // jeton de permission et d'accès à la base
-//			
-//			// récupérer un buffer d'échange avec la BDD (un tuyau de communication)
-//			Statement monCanal = connection.createStatement();
-//			ResultSet monResultat = monCanal.executeQuery("select * from categorie;");
-//			
-//			while(monResultat.next()) {
-//				listeCategorie.add(new Categorie(monResultat.getInt("id_cat"), 
-//												monResultat.getString("nom")));
-//			}
-//			monResultat.close();
-//			monCanal.close();
-//			
-//		} catch(Exception e) {
-//			System.err.println("Erreur d'éxecution :" + e.getMessage());
-//		} finally {
-//			try {
-//				if(connection != null) connection.close();
-//			} catch(SQLException e) {
-//				System.err.println("Problème de connection :" + e.getMessage());
-//			}		
-//		}
-//		return listeCategorie;
-//	}
 
+	// insertion d'un objet categorie dans la table categorie
 	@Override
 	public void insert(Categorie categorie) {
 		Connection connection = null;
@@ -57,7 +29,7 @@ public class CategorieDaoJdbc implements CategorieDao {
 			connection.close();
 			
 		} catch(Exception e) {
-			System.err.println("erreur d'éxecution : " + e.getMessage());
+			System.err.println("erreur d'éxecution insert categorie : " + e.getMessage());
 		}finally {
 			try {
 				if(connection != null) connection.close();
@@ -69,6 +41,8 @@ public class CategorieDaoJdbc implements CategorieDao {
 		
 	}
 	
+	
+	// méthode pour récupérer l'ID de l'additif à partir de son nom
 	public int getCategorieIdByName(String nom) {
 		Connection connection = null;
 		int id_cat = -1;

@@ -25,19 +25,9 @@ public class Application {
 
 	public static void main(String[] args) {
 		
-//		Allergene catTest = new Allergene("cat");
-//		AllergeneDaoJdbc catDao = new AllergeneDaoJdbc();
-//		catDao.insert(catTest);
-//		System.out.println(catDao.getAllergeneIdByName("tot"));
-		
-//		ProduitDaoJdbc catTest = new ProduitDaoJdbc();
-//		catTest.insertJointureIng(3, 2);
-
-		
-		
 		
 		try {
-			File file = new File("C:\\Users\\louis\\Desktop\\Diginamic\\openFoodFacts.csv");
+		File file = new File("C:\\Users\\louis\\Desktop\\Diginamic\\openFoodFacts.csv");
 		List<String> lignes = FileUtils.readLines(file, "UTF-8");
 
 		lignes.remove(0);
@@ -54,9 +44,16 @@ public class Application {
 			String nom = morceaux[2];
 			String nutritionGrade = morceaux[3];
 
+			// les ingrédients sont séparés en différents morceaux et stockés dans une liste
 			String ingredientsStr = morceaux[4];
 			List<String> ingredients = Arrays.asList(ingredientsStr.split(",", -1));
 			List<Ingredient> listeIngredients = new ArrayList<>();
+			for (String ingredient : ingredients) {
+				Ingredient ing = new Ingredient(StringUtils.traitementCaracteresSpe(ingredient));
+				listeIngredients.add(ing);
+			}
+
+			System.out.println("Ingredients in Product Object : " + listeIngredients.size());
 			
 			Double energie100g =  StringUtils.toDouble(morceaux[5]);
 			Double graisse100g = StringUtils.toDouble(morceaux[6]);
@@ -82,16 +79,25 @@ public class Application {
 			Double betacarotene = StringUtils.toDouble(morceaux[26]);
 			String huileDePalme = morceaux[27];
 			
+			// les allergenes sont séparés en différents morceaux et stockés dans une liste
 			String allergenesStr = morceaux[28];
 			List<String> allergenes = Arrays.asList(allergenesStr.split(",", -1));
 			List<Allergene> listeAllergenes = new ArrayList<>();
+			for (String allergene : allergenes) {
+				Allergene all = new Allergene(StringUtils.traitementCaracteresSpe(allergene));
+				listeAllergenes.add(all);
+			}
 			
-			
+			// les addititfs sont séparés en différents morceaux et stockés dans une liste
 			String additifsStr = morceaux[29];
 			List<String> additifs = Arrays.asList(additifsStr.split(",", -1));
 			List<Additif> listeAdditifs = new ArrayList<>();
+			for (String additif : additifs) {
+				Additif add = new Additif(StringUtils.traitementCaracteresSpe(additif));
+				listeAdditifs.add(add);
+			}
 			
-			
+			// création d'un nouveau produit
 			Produit produit = new Produit(StringUtils.traitementCaracteresSpe(nom));
 			produit.setCategorie(new Categorie(StringUtils.traitementCaracteresSpe(nomCategorie)));
 			produit.setMarque(new Marque(StringUtils.traitementCaracteresSpe(nomMarque)));
@@ -123,6 +129,7 @@ public class Application {
 			produit.setListeAdditifs(listeAdditifs);
 			produit.setHuileDePalme(Boolean.parseBoolean(huileDePalme));
 
+			// insertion du produit dans la table produit
 			ProduitDaoJdbc insererPdt = new ProduitDaoJdbc();
 			insererPdt.insert(produit);
 			
@@ -133,8 +140,6 @@ public class Application {
 			System.out.println(e.getMessage());
 		}
 		
-	
-
 
 	}
 

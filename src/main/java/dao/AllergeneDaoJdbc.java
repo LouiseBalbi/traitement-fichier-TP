@@ -14,36 +14,8 @@ import entites.Ingredient;
 
 public class AllergeneDaoJdbc implements AllergneDao {
 
-//	@Override
-//	public List<Allergene> extraire() {
-//		Connection connection = null;
-//		List<Allergene> listeAllergene = new ArrayList<Allergene>();
-//		try {
-//			connection = getConnection(); // jeton de permission et d'accès à la base
-//			
-//			// récupérer un buffer d'échange avec la BDD (un tuyau de communication)
-//			Statement monCanal = connection.createStatement();
-//			ResultSet monResultat = monCanal.executeQuery("select * from allergene;");
-//			
-//			while(monResultat.next()) {
-//				listeAllergene.add(new Allergene(monResultat.getInt("id_all"), 
-//											monResultat.getString("nom")));
-//			}
-//			monResultat.close();
-//			monCanal.close();
-//			
-//		} catch(Exception e) {
-//			System.err.println("Erreur d'éxecution :" + e.getMessage());
-//		} finally {
-//			try {
-//				if(connection != null) connection.close();
-//			} catch(SQLException e) {
-//				System.err.println("Problème de connection :" + e.getMessage());
-//			}		
-//		}
-//		return listeAllergene;
-//	}
 
+	// insertion d'un objet allergene dans la table allergene
 	@Override
 	public void insert(Allergene allergene) {
 		Connection connection = null;
@@ -57,7 +29,7 @@ public class AllergeneDaoJdbc implements AllergneDao {
 			connection.close();
 			
 		} catch(Exception e) {
-			System.err.println("erreur d'éxecution : " + e.getMessage());
+			System.err.println("erreur d'éxecution insert allergene : " + e.getMessage());
 		}finally {
 			try {
 				if(connection != null) connection.close();
@@ -69,7 +41,7 @@ public class AllergeneDaoJdbc implements AllergneDao {
 	}
 	
 	
-	
+	// méthode pour récupérer l'ID de l'allergene à partir de son nom
 	public int getAllergeneIdByName(String nom) {
 		Connection connection = null;
 		int id_all = -1;

@@ -14,36 +14,8 @@ import entites.Allergene;
 
 public class AdditifDaoJdbc implements AdditifDao {
 
-//	@Override
-//	public List<Additif> extraire() {
-//		Connection connection = null;
-//		List<Additif> listeAdditif = new ArrayList<Additif>();
-//		try {
-//			connection = getConnection(); // jeton de permission et d'accès à la base
-//			
-//			// récupérer un buffer d'échange avec la BDD (un tuyau de communication)
-//			Statement monCanal = connection.createStatement();
-//			ResultSet monResultat = monCanal.executeQuery("select * from additif;");
-//			
-//			while(monResultat.next()) {
-//				listeAdditif.add(new Additif(monResultat.getInt("id_add"), 
-//											monResultat.getString("nom")));
-//			}
-//			monResultat.close();
-//			monCanal.close();
-//			
-//		} catch(Exception e) {
-//			System.err.println("Erreur d'éxecution :" + e.getMessage());
-//		} finally {
-//			try {
-//				if(connection != null) connection.close();
-//			} catch(SQLException e) {
-//				System.err.println("Problème de connection :" + e.getMessage());
-//			}		
-//		}
-//		return listeAdditif;
-//	}
 
+	// méthode pour insérer un objet additif à la table additif
 	@Override
 	public void insert(Additif additif) {
 		Connection connection = null;
@@ -57,7 +29,7 @@ public class AdditifDaoJdbc implements AdditifDao {
 			connection.close();
 			
 		} catch(Exception e) {
-			System.err.println("erreur d'éxecution : " + e.getMessage());
+			System.err.println("erreur d'éxecution insert additif : " + e.getMessage());
 		}finally {
 			try {
 				if(connection != null) connection.close();
@@ -68,7 +40,7 @@ public class AdditifDaoJdbc implements AdditifDao {
 
 	}
 	
-	
+	// méthode pour récupérer l'ID de l'additif à partir de son nom
 	public int getAdditifIdByName(String nom) {
 		Connection connection = null;
 		int id_add = -1;

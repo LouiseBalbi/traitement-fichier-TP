@@ -94,7 +94,7 @@ public class ProduitDaoJdbc implements ProduitDao {
 			
 			if (id_prod == -1) {
 			
-			int nb = monCanal.executeUpdate("insert into produit (id_cat, id_mar, nom, nutritionGrade, "
+			int nb = monCanal.executeUpdate("insert into produit (id_cat, id_marque, nom, nutritionGrade, "
 									+ "energie100g, graisse100g, sucres100g, fibres100g, proteines100g, sel100g,"
 									+ "vitA_100g, vitD_100g, vitE_100g, vitK_100g, vitC_100g, vitB1_100g, vitB2_100g, "
 									+ "vitPP_100g, vitB6_100g, vitB9_100g, vitB121_100g, calcium100g, magnesium100g,"
@@ -130,15 +130,19 @@ public class ProduitDaoJdbc implements ProduitDao {
 
 			
 			id_prod = this.getProduitIdByName(produit.getNom());
+			
 			IngredientDaoJdbc ing = new IngredientDaoJdbc();
 			List<Ingredient> ingredients = produit.getListeIngredients();
-			
+		
 			// parcours de la liste d'ingrédient et ajout des ingrédients aux tables ingrédients + jointure
 			for (Ingredient ingredient : ingredients) {
 				int id_ing = ing.getIngredientIdByName(ingredient.getNom());
-				if(id_ing != -1) {
+				if(id_ing != -1) {	
+					// si l'ingredient existe on insère dans la table jointure le couple id_prod, id_ing
 					this.insertJointureIng(id_prod, id_ing);
 				}else {
+					// si l'ingrédient n'existe pas, on l'ajoute à la table ingrédient avant de faire
+					// l'ajout dans la table jointure
 					ing.insert(ingredient);
 					id_ing = ing.getIngredientIdByName(ingredient.getNom());
 					this.insertJointureIng(id_prod, id_ing);
@@ -185,7 +189,7 @@ public class ProduitDaoJdbc implements ProduitDao {
 			}
 			
 		} catch(Exception e) {
-			System.err.println("erreur d'éxecution : " + e.getMessage());
+			System.err.println("erreur d'éxecution, insert produit : " + e.getMessage());
 		}finally {
 			try {
 				if(connection != null) connection.close();
@@ -204,13 +208,13 @@ public class ProduitDaoJdbc implements ProduitDao {
 			connection = getConnection();
 			Statement monCanal = connection.createStatement();
 			int nb = monCanal.executeUpdate("insert into jointure_prod_ing (id_prod, id_ing) values(" 
-											+ id_prod + id_ing + ")");
+											+ id_prod +"," + id_ing + ")");
 
 			monCanal.close();
 			connection.close();
 			
 		} catch(Exception e) {
-			System.err.println("erreur d'éxecution : " + e.getMessage());
+			System.err.println("erreur d'éxecution jointure prod/ing : " + e.getMessage());
 		}finally {
 			try {
 				if(connection != null) connection.close();
@@ -229,13 +233,13 @@ public class ProduitDaoJdbc implements ProduitDao {
 			connection = getConnection();
 			Statement monCanal = connection.createStatement();
 			int nb = monCanal.executeUpdate("insert into jointure_prod_all (id_all, id_prod) values(" 
-											+ id_all + id_prod + ")");
+											+ id_all +","+ id_prod + ")");
 
 			monCanal.close();
 			connection.close();
 			
 		} catch(Exception e) {
-			System.err.println("erreur d'éxecution : " + e.getMessage());
+			System.err.println("erreur d'éxecution jointure all/prod : " + e.getMessage());
 		}finally {
 			try {
 				if(connection != null) connection.close();
@@ -253,13 +257,13 @@ public class ProduitDaoJdbc implements ProduitDao {
 			connection = getConnection();
 			Statement monCanal = connection.createStatement();
 			int nb = monCanal.executeUpdate("insert into jointure_prod_add (id_add, id_prod) values(" 
-											+ id_add + id_prod + ")");
+											+ id_add +","+ id_prod + ")");
 
 			monCanal.close();
 			connection.close();
 			
 		} catch(Exception e) {
-			System.err.println("erreur d'éxecution : " + e.getMessage());
+			System.err.println("erreur d'éxecution jointure add/prod : " + e.getMessage());
 		}finally {
 			try {
 				if(connection != null) connection.close();
